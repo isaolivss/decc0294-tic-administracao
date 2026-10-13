@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rotatividade · setembro/2026 · companhia de dança (base simulada)</title>
+<style>
+:root{
+  --fucsia:#FF2E88; --violeta:#8B3DFF; --ciano:#00C8F0; --agua:#00D98B;
+  --sol:#FFC400; --coral:#FF6B3D; --lima:#B6FF2E;
+  --tinta:#2A1140; --sub:#6E5A85; --linha:#EADFF7;
+  --rosa:#FFEDF6; --lilas:#F5EEFF; --creme:#FFF7EE; --menta:#E9FFF5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#1b0b2e;
+  font-family:"Segoe UI",Calibri,"Helvetica Neue",Arial,sans-serif}
+
+#palco{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden}
+.slide{position:relative;width:1280px;height:720px;overflow:hidden;display:none;
+  color:var(--tinta);background:
+    radial-gradient(680px 420px at 108% -8%, #FFE3F4 0%, transparent 62%),
+    radial-gradient(560px 380px at -6% 104%, #E4F7FF 0%, transparent 60%),
+    radial-gradient(460px 300px at 92% 108%, #F0E6FF 0%, transparent 62%),
+    linear-gradient(160deg,#FFFDFE 0%,#FDF7FF 58%,#F7F2FF 100%);
+  box-shadow:0 14px 46px rgba(0,0,0,.5)}
+.slide.ativo{display:block}
+
+/* ---------------- moldura comum ---------------- */
+.slide .barra{position:absolute;top:0;left:0;right:0;height:12px;
+  background:linear-gradient(90deg,var(--fucsia),var(--violeta) 32%,var(--ciano) 62%,var(--agua) 100%)}
+.slide .eyebrow{position:absolute;top:38px;left:64px;font-size:15px;font-weight:800;
+  letter-spacing:2.2px;text-transform:uppercase;color:var(--violeta)}
+.slide h2{position:absolute;top:62px;left:64px;right:64px;font-size:41px;line-height:1.1;
+  font-weight:800;color:var(--tinta)}
+.slide h2 b{color:var(--fucsia)}
+.slide .sub{position:absolute;top:128px;left:64px;right:64px;font-size:19px;color:var(--sub)}
+.slide .corpo{position:absolute;top:186px;left:64px;right:64px;bottom:78px}
+.slide footer{position:absolute;left:0;right:0;bottom:0;height:58px;
+  border-top:2px solid var(--linha);background:rgba(255,255,255,.72)}
+.slide footer .esq{position:absolute;left:64px;top:18px;font-size:13.5px;color:var(--sub)}
+.slide footer .pag{position:absolute;right:64px;top:12px;font-size:13.5px;font-weight:800;color:#fff;
+  background:linear-gradient(90deg,var(--fucsia),var(--violeta));padding:5px 14px;border-radius:20px}
+.danca{position:absolute;pointer-events:none;opacity:.9}
+.nota{position:absolute;pointer-events:none;color:var(--violeta);opacity:.5}
+
+/* ---------------- cartões ---------------- */
+.card{background:#fff;border:2px solid var(--linha);border-radius:20px;padding:20px 22px;
+  box-shadow:0 5px 0 rgba(139,61,255,.10)}
+.card h3{font-size:21px;line-height:1.2;color:var(--tinta);margin-bottom:8px}
+.card p{font-size:17px;line-height:1.45;color:var(--sub)}
+.card .rot{display:block;font-size:13px;font-weight:800;letter-spacing:1.6px;
+  text-transform:uppercase;margin-bottom:9px}
+.fucsia{border-color:#FFC7E2;background:linear-gradient(180deg,#FFF6FA,#fff)}
+.fucsia .rot{color:var(--fucsia)}
+.violeta{border-color:#DCC9FF;background:linear-gradient(180deg,#F8F3FF,#fff)}
+.violeta .rot{color:var(--violeta)}
+.ciano{border-color:#B6ECFA;background:linear-gradient(180deg,#F0FCFF,#fff)}
+.ciano .rot{color:#00A5C9}
+.agua{border-color:#B0EFD4;background:linear-gradient(180deg,#F1FFF9,#fff)}
+.agua .rot{color:#00A46B}
+.sol{border-color:#FFE49C;background:linear-gradient(180deg,#FFFBEC,#fff)}
+.sol .rot{color:#C08A00}
+.coral{border-color:#FFC8B2;background:linear-gradient(180deg,#FFF5F0,#fff)}
+.coral .rot{color:var(--coral)}
+
+/* ---------------- aviso ---------------- */
+.aviso{background:linear-gradient(135deg,#FFE9F3,#FFF6DF);border:3px dashed var(--fucsia);
+  border-radius:22px;padding:20px 24px}
+.aviso .rot{display:block;font-size:14px;font-weight:900;letter-spacing:2px;color:var(--fucsia);
+  margin-bottom:8px}
+.aviso p{font-size:18px;line-height:1.45;color:var(--tinta)}
+.aviso p+p{margin-top:8px}
+
+/* ---------------- números ---------------- */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.num{background:#fff;border:3px solid;border-radius:22px;padding:18px 20px;text-align:center}
+.num .r{font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase}
+.num .v{font-size:56px;font-weight:900;line-height:1.05;margin:6px 0 2px}
+.num .d{font-size:15px;color:var(--sub);line-height:1.35}
+.num.a{border-color:#9BE7C9} .num.a .r,.num.a .v{color:#00A46B}
+.num.d{border-color:#FFB0CB} .num.d .r,.num.d .v{color:var(--fucsia)}
+.num.e{border-color:#B6ECFA} .num.e .r,.num.e .v{color:#00A5C9}
+
+/* ---------------- listas ---------------- */
+.lista{list-style:none}
+.lista li{position:relative;padding-left:34px;font-size:18.5px;line-height:1.45;margin-bottom:14px;
+  color:var(--tinta)}
+.lista li::before{content:"";position:absolute;left:0;top:8px;width:15px;height:15px;
+  border-radius:5px;background:var(--fucsia);transform:rotate(-8deg)}
+.lista li b{color:var(--violeta)}
+.lista li.nega::before{background:transparent;border:3px solid var(--fucsia)}
+.lista.verde li::before{background:var(--agua)}
+.lista.neutro li::before{background:var(--sol)}
+
+/* ---------------- tabela ---------------- */
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:17px}
+th{font-size:12.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--violeta);
+  text-align:left;padding:0 12px 10px;font-weight:800}
+td{padding:6.5px 12px;border-top:1px solid var(--linha);color:var(--tinta)}
+tr.marca td{background:#FFF4FA}
+tr.alerta td{background:#FFF6E8}
+.chip{display:inline-block;min-width:78px;text-align:center;font-weight:900;font-size:16px;
+  padding:3px 10px;border-radius:14px;color:#fff;background:var(--agua)}
+.chip.zero{background:linear-gradient(90deg,var(--sol),var(--coral));color:#3A2400}
+.chip.alto{background:linear-gradient(90deg,var(--fucsia),var(--violeta))}
+.chip.morto{background:#EFE7F7;color:var(--sub)}
+tr.marca .chip{background:linear-gradient(90deg,var(--fucsia),var(--violeta))}
+tr.alerta .chip{background:linear-gradient(90deg,var(--sol),var(--coral));color:#3A2400}
+.barraD{position:relative;height:20px;background:#F3EDFA;border-radius:11px;overflow:hidden}
+.barraD i{position:absolute;inset:0 auto 0 0;border-radius:11px;
+  background:linear-gradient(90deg,var(--fucsia),var(--violeta))}
+.barraD i.zero{background:#E6DEF2}
+
+/* ---------------- hipóteses ---------------- */
+.hip{background:#fff;border:2px solid var(--linha);border-left:8px solid var(--ciano);
+  border-radius:16px;padding:14px 18px}
+.hip .h{font-size:18.5px;font-weight:800;color:var(--tinta);margin-bottom:5px}
+.hip .h span{color:var(--fucsia)}
+.hip p{font-size:16.5px;line-height:1.4;color:var(--sub)}
+
+/* ---------------- não sei ---------------- */
+.nsei{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nsei div{background:#fff;border:2px dashed var(--coral);border-radius:18px;padding:11px 16px;
+  font-size:16px;line-height:1.38;color:var(--tinta)}
+.nsei b{color:var(--coral);letter-spacing:1px;font-size:13.5px;display:block;margin-bottom:4px}
+
+/* ---------------- código ---------------- */
+pre{background:#2A1140;color:#F3E7FF;border-radius:16px;padding:16px 20px;font-size:15.5px;
+  line-height:1.6;overflow:auto}
+pre .c{color:#B79BFF}
+code{font-family:Consolas,"Courier New",monospace}
+.tag{display:inline-block;background:#fff;border:2px solid var(--linha);border-radius:16px;
+  padding:6px 14px;font-size:15.5px;font-weight:700;color:var(--violeta);margin:0 8px 8px 0}
+
+/* ---------------- capa ---------------- */
+.capa .barra{height:14px}
+.capa h1{position:absolute;top:150px;left:74px;width:660px;font-size:56px;line-height:1.05;
+  font-weight:900;color:var(--tinta)}
+.capa h1 em{font-style:normal;
+  background:linear-gradient(90deg,var(--fucsia),var(--violeta) 45%,var(--ciano));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.capa .linha2{position:absolute;top:320px;left:74px;width:660px;font-size:26px;font-weight:700;
+  color:var(--violeta)}
+.capa .cred{position:absolute;top:370px;left:74px;width:630px;font-size:18.5px;color:var(--sub);
+  line-height:1.5}
+.capa .formula{position:absolute;top:496px;left:74px;width:630px;background:#fff;
+  border:3px solid var(--ciano);border-radius:20px;padding:15px 22px}
+.capa .formula .r{font-size:12.5px;font-weight:800;letter-spacing:1.8px;color:#00A5C9}
+.capa .formula .v{font-size:27px;font-weight:900;margin-top:6px;color:var(--tinta)}
+.capa .formula .v small{display:block;font-size:15px;font-weight:600;color:var(--sub);
+  margin-top:5px}
+.capa .selo{position:absolute;top:52px;left:74px;
+  background:linear-gradient(135deg,var(--fucsia),var(--violeta));
+  color:#fff;font-weight:900;font-size:18px;letter-spacing:1.6px;padding:12px 24px;border-radius:40px;
+  box-shadow:0 8px 22px rgba(255,46,136,.4)}
+.capa .fict{position:absolute;top:432px;right:64px;width:404px;background:#fff;
+  border:3px dashed var(--coral);border-radius:22px;padding:16px 20px}
+.capa .fict .r{font-size:13px;font-weight:900;letter-spacing:1.6px;color:var(--coral)}
+.capa .fict p{font-size:16px;line-height:1.42;color:var(--tinta);margin-top:6px}
+.capa .rodape{position:absolute;bottom:0;left:0;right:0;height:58px;display:flex;align-items:center;
+  padding:0 74px;font-size:13.5px;color:var(--sub);border-top:2px solid var(--linha);
+  background:rgba(255,255,255,.7)}
+
+/* ---------------- navegação ---------------- */
+#nav{position:fixed;left:0;right:0;bottom:14px;z-index:9;display:flex;gap:10px;align-items:center;
+  justify-content:center;font-family:"Segoe UI",sans-serif;color:#fff;font-size:15px}
+#nav button{background:#5B2E8C;color:#fff;border:0;padding:8px 16px;border-radius:20px;cursor:pointer;
+  font-size:19px;line-height:1}
+#nav button:hover{background:#7B44B5}
+#nav input{width:56px;text-align:center;background:#3C1C63;color:#fff;border:0;border-radius:8px;
+  padding:7px;font-size:15px}
+#ajuda{position:fixed;right:16px;bottom:16px;z-index:9;color:#C9B6E8;font-size:12.5px;font-family:"Segoe UI",sans-serif}
+
+@media print{
+  #nav,#ajuda{display:none!important}
+  html,body{background:#fff;height:auto}
+  #palco{position:static;display:block;overflow:visible}
+  .slide{display:block!important;transform:none!important;box-shadow:none;
+    page-break-after:always;break-after:page;margin:0}
+  @page{size:1280px 720px;margin:0}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bailarina" viewBox="0 0 130 175">
+    <g fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="64" cy="16" r="10" stroke="none"/>
+      <circle cx="53" cy="9" r="5.5" stroke="none"/>
+      <path d="M60 27 C58 42 56 56 54 70 L72 70 C70 55 69 41 68 27 Z" stroke="none"/>
+      <path d="M54 70 C40 74 24 84 12 98 C26 94 44 90 63 88 C82 90 100 94 114 98
+               C102 84 86 74 72 70 Z" stroke="none"/>
+      <path d="M57 34 C46 42 36 54 27 68" fill="none" stroke-width="7"/>
+      <path d="M69 34 C82 40 94 45 108 41" fill="none" stroke-width="7"/>
+      <path d="M60 92 L57 126 L54 158" fill="none" stroke-width="8"/>
+      <path d="M68 92 L96 116 L120 126" fill="none" stroke-width="8"/>
+      <path d="M54 158 L46 168" fill="none" stroke-width="6"/>
+      <path d="M120 126 L129 121" fill="none" stroke-width="5"/>
+    </g>
+  </symbol>
+  <symbol id="nota" viewBox="0 0 40 46">
+    <g fill="currentColor" stroke="currentColor" stroke-linecap="round">
+      <path d="M18 40V8" stroke-width="4" fill="none"/>
+      <path d="M18 9 C26 11 32 15 32 21 C32 25 27 26 24 23" stroke-width="4" fill="none"/>
+      <ellipse cx="12.5" cy="40" rx="7" ry="5.2" stroke="none"/>
+    </g>
+  </symbol>
+  <symbol id="brilho" viewBox="0 0 24 24">
+    <path d="M12 0 L14.6 9.4 L24 12 L14.6 14.6 L12 24 L9.4 14.6 L0 12 L9.4 9.4 Z"
+      fill="currentColor"/>
+  </symbol>
+</defs></svg>
+
+<div id="palco">
+
+<!-- ============================ 1 · CAPA ============================ -->
+<section class="slide capa">
+  <div class="barra"></div>
+  <svg class="danca" style="top:70px;right:96px;width:230px;height:310px" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--fucsia)"/></svg>
+  <svg class="nota" style="top:206px;right:352px;width:30px" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <svg class="nota" style="top:96px;right:22px;width:24px;color:var(--sol);opacity:.9" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <svg class="nota" style="top:130px;left:66px;width:26px;color:var(--violeta);opacity:.45" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <svg class="nota" style="bottom:150px;left:70px;width:30px;color:var(--agua);opacity:.6" viewBox="0 0 40 46"><use href="#nota"/></svg>
+
+  <span class="selo">BASE SIMULADA</span>
+
+  <h1>Rotatividade de pessoal<br><em>setembro de 2026</em></h1>
+  <p class="linha2">Companhia de dança · leitura de indicador</p>
+  <p class="cred">O que dez desligamentos fazem com um número que só enxerga seis.
+     E por que a área mais problemática da empresa aparece como a que tem taxa zero.</p>
+
+  <div class="formula">
+    <span class="r">FÓRMULA CAGED · DENOMINADOR = ESTOQUE NO 1º DIA</span>
+    <div class="v">TR = <span style="color:var(--fucsia)">min</span>(A, D) ÷ E × 100
+      <small>Ministério do Trabalho e Emprego · página "O que é CAGED", lida em 13/10/2026</small></div>
+  </div>
+
+  <div class="fict">
+    <span class="r">⚠ LEIA ANTES DE TUDO</span>
+    <p>A companhia <b>não existe</b> e as pessoas <b>não existem</b>. O CSV foi gerado por um
+       script com semente fixa. Nenhum número aqui descreve o setor de dança.</p>
+  </div>
+
+  <div class="rodape">Rascunho para revisão · DECC0294 · números gerados por
+    <code>.opencode/skills/analise-turnover/scripts/turnover.py</code></div>
+</section>
+
+<!-- ============================ 2 · RASCUNHO ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Antes dos números</p>
+  <h2>Isto é <b>rascunho</b> e a base é <b>inventada</b></h2>
+  <p class="sub">Nenhuma análise começa pulando esta parte. Ela muda o que o texto pode afirmar depois.</p>
+
+  <div class="corpo">
+    <div class="aviso" style="margin-bottom:18px">
+      <span class="rot">⚠ O QUE ISSO É</span>
+      <p>Um relatório de leitura de indicador produzido pela skill <code>analise-turnover</code> sobre
+         um conjunto de dados <b>fictício</b>, gerado por
+         <code>dados/gerador-companhia-danca.py</code> (semente <code>20260913</code>).</p>
+      <p>Ele foi montado por assistente automático. Você revisa, corta o que não usa e assume a
+         responsabilidade por cada frase.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <div class="card violeta"><span class="rot">Serve</span>
+        <p>O método: como se declara a fórmula, como se lê a tabela por área, como se separa
+           voluntário de involuntário, e o que um indicador agregado nunca vai dizer.</p></div>
+      <div class="card fucsia"><span class="rot">Não serve</span>
+        <p>Os números, como dado de mercado. Usar 8,00 % como se descrevesse o setor de dança
+           seria apresentar dado inventado como medido.</p></div>
+      <div class="card ciano"><span class="rot">Cuidado extra</span>
+        <p>Alguns padrões da base foram <b>plantados por mim</b> no gerador — entre eles a concentração
+           de saídas de setembro no elenco. Ler "sazonalidade do setor" aí é circular.</p></div>
+      <div class="card coral"><span class="rot">Sem benchmark</span>
+        <p>Se 8 % é alto ou baixo: <b>NÃO SEI</b>. Nenhuma fonte consultada define valor de referência
+           por setor, região ou porte. Frase do tipo "acima da média" seria invenção.</p></div>
+    </div>
+  </div>
+
+  <svg class="danca" style="right:-16px;bottom:-10px;width:132px;height:178px;opacity:.22" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--violeta)"/></svg>
+  <footer><span class="esq">Rotatividade · setembro/2026 · base simulada</span><span class="pag">2</span></footer>
+</section>
+
+<!-- ============================ 3 · A BASE ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Cobertura declarada</p>
+  <h2>A base e <b>o que ela cobre</b></h2>
+  <p class="sub">Sem denominador explícito, taxa não compara com nada. Sem cobertura declarada, não compara com o CAGED.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1.02fr 1fr;gap:20px">
+    <div>
+      <div class="nums" style="grid-template-columns:repeat(3,1fr);gap:12px">
+        <div class="num a" style="padding:14px 12px"><span class="r">Registros</span>
+          <div class="v" style="font-size:44px">484</div>
+          <div class="d" style="font-size:13.5px">linhas na base</div></div>
+        <div class="num e" style="padding:14px 12px"><span class="r">Quadro 01/09</span>
+          <div class="v" style="font-size:44px">75</div>
+          <div class="d" style="font-size:13.5px">denominador <b>E</b></div></div>
+        <div class="num d" style="padding:14px 12px"><span class="r">Ativos no fim</span>
+          <div class="v" style="font-size:44px">71</div>
+          <div class="d" style="font-size:13.5px">estoque de 30/09</div></div>
+      </div>
+      <div class="card sol" style="margin-top:14px;padding:14px 18px">
+        <span class="rot">Cobertura — leia com atenção</span>
+        <p style="font-size:16px">Quadro <b>inteiro</b> da companhia fictícia: elenco, escola, produção e
+           apoio, sem exceção por tipo de contrato. Isso <b>não</b> é base do CAGED e não tem a cobertura
+           dele (~85 % dos celetistas, segundo o MTE).</p>
+      </div>
+      <div class="card violeta" style="margin-top:14px;padding:14px 18px">
+        <span class="rot">Janela e reprodutibilidade</span>
+        <p style="font-size:16px">Movimento acumulado de <b>2010 até 13/10/2026</b>. A base foi gerada por
+           um script com <b>semente fixa</b> (20260913): rodar de novo reproduz o arquivo igual. Auditar
+           um número é reler as premissas do gerador, não o relatório.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="card ciano" style="margin-bottom:12px;padding:13px 18px">
+        <span class="rot">Por que gerar dado em vez de escrever na mão</span>
+        <p style="font-size:16px">Para que toda premissa fique escrita num lugar verificável e para o
+           arquivo ser reproduzível. Auditoria é o argumento, não a estética.</p>
+      </div>
+      <pre style="font-size:14.5px;line-height:1.5;padding:13px 18px"><span class="c"># conferência antes de calcular</span>
+python .opencode/skills/analise-turnover/\
+  scripts/turnover.py dados/...danca.csv --confere
+
+<span class="c"># o cálculo</span>
+python ... turnover.py dados/...danca.csv \
+       --mes 2026-09</pre>
+      <div class="card agua" style="margin-top:12px;padding:13px 18px">
+        <span class="rot">O script não interpreta</span>
+        <p style="font-size:16px">Ele calcula e imprime. Não diz se o resultado é bom ou ruim, não
+           compara com mercado e não escreve conclusão. Quando recusa a base, diz o que falta.</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="nota" style="right:26px;top:60px;width:28px;color:var(--sol)" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <footer><span class="esq">Base · dados/turnover-companhia-danca.csv</span><span class="pag">3</span></footer>
+</section>
+
+<!-- ============================ 4 · A FÓRMULA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Passo 1 · uma fórmula só</p>
+  <h2>A conta é essa — e <b>só essa</b></h2>
+  <p class="sub">Fórmula do Ministério do Trabalho e Emprego, página "O que é CAGED", lida em 13/10/2026.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
+    <div>
+      <svg viewBox="0 0 520 300" style="width:100%;height:auto">
+        <defs>
+          <marker id="seta" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0 0 L9 3 L0 6 z" fill="#8B3DFF"/>
+          </marker>
+        </defs>
+        <text x="96" y="48" text-anchor="middle" font-size="19" font-weight="800" fill="#00A46B">A</text>
+        <text x="96" y="72" text-anchor="middle" font-size="14" fill="#6E5A85">admissões</text>
+        <rect x="30" y="88" width="132" height="86" rx="18" fill="#E9FFF5" stroke="#00D98B" stroke-width="3"/>
+        <text x="96" y="146" text-anchor="middle" font-size="46" font-weight="900" fill="#00A46B">6</text>
+
+        <text x="424" y="48" text-anchor="middle" font-size="19" font-weight="800" fill="#FF2E88">D</text>
+        <text x="424" y="72" text-anchor="middle" font-size="14" fill="#6E5A85">desligamentos</text>
+        <rect x="358" y="88" width="132" height="86" rx="18" fill="#FFEDF6" stroke="#FF2E88" stroke-width="3"/>
+        <text x="424" y="146" text-anchor="middle" font-size="46" font-weight="900" fill="#FF2E88">10</text>
+
+        <path d="M120 190 C120 232 150 250 196 250" fill="none" stroke="#8B3DFF" stroke-width="3.5"
+              stroke-dasharray="8 7" marker-end="url(#seta)"/>
+        <path d="M392 190 C392 232 366 250 318 250" fill="none" stroke="#8B3DFF" stroke-width="3.5"
+              stroke-dasharray="8 7" marker-end="url(#seta)"/>
+
+        <text x="260" y="222" text-anchor="middle" font-size="17" font-weight="800" fill="#8B3DFF">min(A, D)</text>
+        <rect x="200" y="248" width="120" height="44" rx="16" fill="#F5EEFF" stroke="#8B3DFF" stroke-width="3"/>
+        <text x="260" y="280" text-anchor="middle" font-size="26" font-weight="900" fill="#2A1140">6</text>
+      </svg>
+    </div>
+
+    <div>
+      <div class="card violeta" style="margin-bottom:14px">
+        <span class="rot">Denominador — tem que escrever</span>
+        <p><b>E = estoque do primeiro dia do mês</b> (75 pessoas em 01/09/2026). Não é quadro médio,
+           não é média anual. Dizer qual dos dois é usada é o que torna o número comparável
+           com qualquer outra taxa.</p>
+      </div>
+      <div class="card fucsia" style="margin-bottom:14px">
+        <span class="rot">Por que CAGED e não SHRM</span>
+        <p>A base é brasileira e a CAGED é a fórmula oficial. A alternativa internacional
+           (saídas ÷ quadro médio) <b>não</b> entra aqui: misturar as duas dá dois denominadores
+           e dois números incomparáveis no mesmo relatório.</p>
+      </div>
+      <div class="card ciano">
+        <span class="rot">O detalhe que quase ninguém escreve</span>
+        <p>O numerador é o <b>menor</b> entre A e D. Quem admite 100 e demite 50 tem taxa sobre 50,
+           não sobre 150. Próximo slide: o que isso esconde aqui.</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="danca" style="left:-24px;bottom:-14px;width:142px;height:192px;opacity:.2" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--ciano)"/></svg>
+  <footer><span class="esq">Fórmula CAGED · MTE, lido em 13/10/2026</span><span class="pag">4</span></footer>
+</section>
+
+<!-- ============================ 5 · O MIN() ESCONDE ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">O ponto central do relatório</p>
+  <h2><b>40 % das saídas</b> não entram na taxa</h2>
+  <p class="sub">Em setembro saíram 10 pessoas. A taxa foi calculada sobre 6. As outras 4 não têm representação no número.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center">
+    <div>
+      <svg viewBox="0 0 500 360" style="width:100%;height:auto">
+        <defs>
+          <pattern id="risco" width="12" height="12" patternTransform="rotate(45)"
+                   patternUnits="userSpaceOnUse">
+            <rect width="12" height="12" fill="#FFE3EF"/>
+            <line x1="0" y1="0" x2="0" y2="12" stroke="#FF2E88" stroke-width="4"/>
+          </pattern>
+        </defs>
+        <line x1="40" y1="316" x2="470" y2="316" stroke="#EADFF7" stroke-width="3"/>
+        <rect x="70"  y="178" width="110" height="138" rx="14" fill="#E9FFF5" stroke="#00D98B" stroke-width="3"/>
+        <text x="125" y="270" text-anchor="middle" font-size="42" font-weight="900" fill="#00A46B">6</text>
+        <text x="125" y="344" text-anchor="middle" font-size="17" font-weight="800" fill="#00A46B">A = 6</text>
+
+        <rect x="300" y="98" width="110" height="218" rx="14" fill="#FFEDF6" stroke="#FF2E88" stroke-width="3"/>
+        <rect x="300" y="98" width="110" height="87" rx="14" fill="url(#risco)" stroke="#FF2E88"
+              stroke-width="3" stroke-dasharray="7 6"/>
+        <text x="355" y="252" text-anchor="middle" font-size="42" font-weight="900" fill="#FF2E88">10</text>
+        <text x="355" y="344" text-anchor="middle" font-size="17" font-weight="800" fill="#FF2E88">D = 10</text>
+
+        <text x="355" y="88" text-anchor="middle" font-size="15" font-weight="800" fill="#FF2E88">
+          4 saídas invisíveis</text>
+        <text x="196" y="176" text-anchor="middle" font-size="15" font-weight="800" fill="#8B3DFF">
+          corte do min(A, D) = 6</text>
+        <line x1="206" y1="185" x2="294" y2="185" stroke="#8B3DFF" stroke-width="3" stroke-dasharray="6 5"/>
+      </svg>
+    </div>
+
+    <div>
+      <div class="card fucsia" style="margin-bottom:14px">
+        <span class="rot">O que isso significa na prática</span>
+        <p>Onde a empresa contrata pouco — e companhia de dança contrata por temporada — a taxa
+           <b>cai sozinha</b> quando a saída cresce. Ela deixa de descrever retenção e passa a
+           descrever o equilíbrio entre contratar e demitir.</p>
+      </div>
+      <div class="card coral" style="margin-bottom:14px">
+        <span class="rot">Por que D vai sempre do lado da taxa</span>
+        <p>Taxa sozinha mente. Uma área com 3 saídas e taxa de 14,29 % pode ser problema, e uma área
+           com taxa 0,00 % pode ter gente indo embora. <b>Sempre os dois números juntos.</b></p>
+      </div>
+      <div class="card agua">
+        <span class="rot">E a substituição</span>
+        <p>O indicador é agregado por construção: entrou uma bailarina, saiu uma bailarina, e a
+           taxa não sabe. O próprio MTE avisa que ela não mede substituição de posto.</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="nota" style="right:22px;top:56px;width:30px;color:var(--fucsia)" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <footer><span class="esq">set/2026 · A = 6 · D = 10 · min = 6 · E = 75</span><span class="pag">5</span></footer>
+</section>
+
+<!-- ============================ 6 · NÚMEROS ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Saída do script · usar como está</p>
+  <h2>Os números de <b>setembro/2026</b></h2>
+  <p class="sub">Nada aqui foi recalculado no texto. Vem da saída do <code>turnover.py --mes 2026-09</code>.</p>
+
+  <div class="corpo">
+    <div class="nums">
+      <div class="num a"><span class="r">A · admissões</span><div class="v">6</div>
+        <div class="d">pessoas admitidas no mês</div></div>
+      <div class="num d"><span class="r">D · desligamentos</span><div class="v">10</div>
+        <div class="d">pessoas que saíram — <b>é este o número real</b></div></div>
+      <div class="num e"><span class="r">E · estoque 1º dia</span><div class="v">75</div>
+        <div class="d">denominador da fórmula</div></div>
+    </div>
+
+    <div class="nums" style="margin-top:18px">
+      <div class="num d" style="border-color:#C7B2E8"><span class="r">Taxa de rotatividade</span>
+        <div class="v" style="font-size:66px">8,00<span style="font-size:32px"> %</span></div>
+        <div class="d">TR = min(6, 10) ÷ 75 × 100</div></div>
+      <div class="num d" style="border-color:#C7B2E8"><span class="r">Saldo A − D</span>
+        <div class="v">−4</div>
+        <div class="d">o quadro encolheu no mês</div></div>
+      <div class="num d" style="border-color:#C7B2E8"><span class="r">Variação relativa</span>
+        <div class="v">−5,33<span style="font-size:30px"> %</span></div>
+        <div class="d">75 pessoas no dia 1 → 71 no dia 30</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px">
+      <div class="aviso">
+        <span class="rot">⚠ Leia D e TR juntos</span>
+        <p>Foram <b>10</b> desligamentos. A taxa é <b>8,00 %</b>. Citar só a taxa é metade da história
+           — e a metade que some.</p>
+      </div>
+      <div class="card sol">
+        <span class="rot">Por que setembro e não outubro</span>
+        <p>A base vai só até <b>13/10/2026</b>. Outubro é mês incompleto e taxa parcial não
+           compara com nada.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer><span class="esq">Comando: turnover.py --mes 2026-09</span><span class="pag">6</span></footer>
+</section>
+
+<!-- ============================ 7 · VOLUNTÁRIO / INVOLUNTÁRIO ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Passo 2 · sempre os dois juntos</p>
+  <h2>Quem saiu, e <b>como</b> saiu</h2>
+  <p class="sub">Taxa total sozinha não diagnostica: demissão em massa e pedido de demissão por salário baixo dão o mesmo número e causas opostas.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:400px 1fr;gap:30px;align-items:center">
+    <div style="position:relative;display:grid;place-items:center">
+      <svg viewBox="0 0 260 260" style="width:340px;height:340px">
+        <g transform="rotate(-90 130 130)" fill="none" stroke-width="34">
+          <circle cx="130" cy="130" r="76" stroke="#F3EDFA"/>
+          <circle cx="130" cy="130" r="76" stroke="#FF2E88" stroke-dasharray="382.01 95.51"/>
+          <circle cx="130" cy="130" r="76" stroke="#00C8F0" stroke-dasharray="95.51 382.01"
+                  stroke-dashoffset="-382.01"/>
+        </g>
+        <text x="130" y="122" text-anchor="middle" font-size="54" font-weight="900" fill="#2A1140">10</text>
+        <text x="130" y="152" text-anchor="middle" font-size="17" font-weight="800" fill="#6E5A85">saídas</text>
+      </svg>
+      <svg class="danca" style="right:6px;bottom:6px;width:104px;height:140px;opacity:.9" viewBox="0 0 130 175">
+        <use href="#bailarina" style="color:var(--fucsia)"/></svg>
+    </div>
+
+    <div>
+      <div class="card fucsia" style="padding:13px 17px;margin-bottom:12px;display:flex;align-items:center;gap:18px">
+        <div style="flex:0 0 18px;height:70px;border-radius:10px;background:linear-gradient(180deg,var(--fucsia),var(--violeta))"></div>
+        <div style="flex:1">
+          <span class="rot">Voluntário</span>
+          <p style="font-size:24px;font-weight:900;color:var(--fucsia);margin:2px 0 3px">8 · 80,0 %</p>
+          <p style="font-size:16px">Motivo registrado: <b>espontâneo</b>. Saiu quem quis sair.</p>
+        </div>
+      </div>
+      <div class="card ciano" style="padding:13px 17px;margin-bottom:12px;display:flex;align-items:center;gap:18px">
+        <div style="flex:0 0 18px;height:70px;border-radius:10px;background:linear-gradient(180deg,var(--sol),var(--coral))"></div>
+        <div style="flex:1">
+          <span class="rot">Involuntário</span>
+          <p style="font-size:24px;font-weight:900;color:#00A5C9;margin:2px 0 3px">2 · 20,0 %</p>
+          <p style="font-size:16px">Motivo registrado: <b>dispensado</b>. Saiu porque mandaram sair.</p>
+        </div>
+      </div>
+      <div class="card" style="padding:13px 17px;display:flex;align-items:center;gap:18px;opacity:.75">
+        <div style="flex:0 0 18px;height:70px;border-radius:10px;background:#E6DEF2"></div>
+        <div style="flex:1">
+          <span class="rot" style="color:var(--sub)">Neutro</span>
+          <p style="font-size:24px;font-weight:900;color:var(--sub);margin:2px 0 3px">0 · 0 %</p>
+          <p style="font-size:16px">Aposentadoria, cessão, morte. Nenhuma no mês.</p>
+        </div>
+      </div>
+      <div class="card sol" style="margin-top:12px;padding:12px 17px">
+        <span class="rot">Cuidado com a leitura</span>
+        <p style="font-size:16px">Alto voluntário <b>aponta</b> salário, carga, chefia ou falta de
+           crescimento — mas <b>não diz qual</b> dos quatro. Só a entrevista separa, e isso é humano.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer><span class="esq">Saídas por tipo · set/2026 · n = 10</span><span class="pag">7</span></footer>
+</section>
+
+<!-- ============================ 8 · TEMPO DE EMPRESA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Passo 3 · tempo no emprego</p>
+  <h2>A saída está <b>cedo</b></h2>
+  <p class="sub">O script imprime a lista por pessoa. O relatório não reproduz: vira faixa. Saiída agregada, sempre.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center">
+    <div>
+      <svg viewBox="0 0 560 400" style="width:100%;height:auto">
+        <text x="0" y="34" font-size="16" font-weight="800" fill="#2A1140">até 6 meses</text>
+        <rect x="0" y="46" width="560" height="34" rx="17" fill="#F3EDFA"/>
+        <rect x="0" y="46" width="470" height="34" rx="17" fill="#FF2E88"/>
+        <text x="486" y="70" font-size="22" font-weight="900" fill="#FF2E88">5</text>
+
+        <text x="0" y="128" font-size="16" font-weight="800" fill="#2A1140">7 a 12 meses</text>
+        <rect x="0" y="140" width="560" height="34" rx="17" fill="#F3EDFA"/>
+        <rect x="0" y="140" width="282" height="34" rx="17" fill="#8B3DFF"/>
+        <text x="298" y="164" font-size="22" font-weight="900" fill="#8B3DFF">3</text>
+
+        <text x="0" y="222" font-size="16" font-weight="800" fill="#2A1140">13 a 24 meses</text>
+        <rect x="0" y="234" width="560" height="34" rx="17" fill="#F3EDFA"/>
+        <rect x="0" y="234" width="94" height="34" rx="17" fill="#00C8F0"/>
+        <text x="110" y="258" font-size="22" font-weight="900" fill="#00A5C9">1</text>
+
+        <text x="0" y="316" font-size="16" font-weight="800" fill="#2A1140">25 meses ou mais</text>
+        <rect x="0" y="328" width="560" height="34" rx="17" fill="#F3EDFA"/>
+        <rect x="0" y="328" width="94" height="34" rx="17" fill="#00D98B"/>
+        <text x="110" y="352" font-size="22" font-weight="900" fill="#00A46B">1</text>
+
+        <line x1="0" y1="384" x2="560" y2="384" stroke="#EADFF7" stroke-width="3"/>
+      </svg>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <span class="tag">menor 1 mês</span><span class="tag">mediana 7 meses</span><span class="tag">maior 25 meses</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="card fucsia" style="margin-bottom:14px">
+        <span class="rot">O que o desenho sugere</span>
+        <p><b>5 dos 10</b> desligamentos aconteceram com até 6 meses de casa — 4 deles no Corpo de
+           Baile. Perfil de <b>integração</b>, não de gente que foi embora depois de construir
+           carreira.</p>
+      </div>
+      <div class="card sol" style="margin-bottom:14px">
+        <span class="rot">Mas é hipótese, não conclusão</span>
+        <p>Saída nos primeiros meses <b>aponta</b> integração e onboarding. Isso <b>não prova</b> que
+           o processo de admissão é o culpado. Para virar conclusão, precisa de entrevista.</p>
+      </div>
+      <div class="card agua">
+        <span class="rot">Como testar</span>
+        <p>Entrevista dos 5 casos de até 6 meses; e verificar se existe responsável nomeado por
+           audição → primeiro ensaio → primeiro espetáculo, e em quanto tempo isso acontece.</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="nota" style="right:20px;top:60px;width:26px;color:var(--agua)" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <footer><span class="esq">Faixas de tempo de casa · set/2026 · n = 10</span><span class="pag">8</span></footer>
+</section>
+
+<!-- ============================ 9 · POR ÁREA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Passo 4 · ler a tabela por área</p>
+  <h2>Onde está o problema: <b>D do lado da taxa</b></h2>
+  <p class="sub">Seis das oito áreas mostram taxa zero. Duas delas tiveram gente saindo.</p>
+
+  <div class="corpo">
+    <table>
+      <thead><tr>
+        <th style="width:230px">Área</th><th style="width:56px">A</th><th style="width:56px">D</th>
+        <th style="width:62px">E</th><th>Saídas (D)</th><th style="width:132px">TR %</th>
+      </tr></thead>
+      <tbody>
+        <tr class="marca"><td><b>Corpo de Baile</b></td><td>6</td><td><b>8</b></td><td>26</td>
+          <td><div class="barraD"><i style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip">23,08</span></td></tr>
+        <tr class="alerta"><td><b>Instrução</b></td><td>0</td><td><b>1</b></td><td>12</td>
+          <td><div class="barraD"><i style="width:12.5%"></i></div></td>
+          <td style="text-align:center"><span class="chip">0,00</span></td></tr>
+        <tr class="alerta"><td><b>Manutenção</b></td><td>0</td><td><b>1</b></td><td>8</td>
+          <td><div class="barraD"><i style="width:12.5%"></i></div></td>
+          <td style="text-align:center"><span class="chip">0,00</span></td></tr>
+        <tr><td>Administrativo</td><td>0</td><td>0</td><td>5</td>
+          <td><div class="barraD"><i class="zero" style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip morto">0,00</span></td></tr>
+        <tr><td>Figurino</td><td>0</td><td>0</td><td>5</td>
+          <td><div class="barraD"><i class="zero" style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip morto">0,00</span></td></tr>
+        <tr><td>Marketing</td><td>0</td><td>0</td><td>5</td>
+          <td><div class="barraD"><i class="zero" style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip morto">0,00</span></td></tr>
+        <tr><td>Produção</td><td>0</td><td>0</td><td>10</td>
+          <td><div class="barraD"><i class="zero" style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip morto">0,00</span></td></tr>
+        <tr><td>Recepção</td><td>0</td><td>0</td><td>4</td>
+          <td><div class="barraD"><i class="zero" style="width:100%"></i></div></td>
+          <td style="text-align:center"><span class="chip morto">0,00</span></td></tr>
+      </tbody>
+    </table>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+      <div class="card coral" style="padding:13px 17px">
+        <span class="rot">⚠ As duas linhas destacadas</span>
+        <p style="font-size:16px">Instrução e Manutenção registraram <b>1 desligamento cada</b> e
+           aparecem com taxa <b>0,00 %</b>. Não houve admissão no mês, então `min(A, D) = 0`:
+           mês sem admissão não tem rotatividade por construção.</p>
+      </div>
+      <div class="card violeta" style="padding:13px 17px">
+        <span class="rot">A área que domina o mês</span>
+        <p style="font-size:16px">Corpo de Baile reúne <b>8 das 10 saídas</b> e é a única área com
+          taxa diferente de zero — porque foi a única que também contratou (6 admissões).</p>
+      </div>
+    </div>
+  </div>
+
+  <footer><span class="esq">Por área · CAGED em todas as linhas · set/2026</span><span class="pag">9</span></footer>
+</section>
+
+<!-- ============================ 10 · PONTO CEGO ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">O indicador agregado mascarando volume</p>
+  <h2>Se o painel mostrasse <b>só a taxa</b></h2>
+  <p class="sub">As duas áreas com saída real apareceriam como "sem problema". Isso é o ponto cego do indicador.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="card" style="border-color:#DCC9FF">
+      <span class="rot">Painel ruim — taxa sozinha</span>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:6px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Corpo de Baile</span>
+          <span class="chip alto" style="min-width:82px">23,08 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Instrução</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Manutenção</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">demais 5 áreas</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+      </div>
+      <p style="margin-top:14px;font-size:16px;color:var(--sub)">Leitura de quem não olha o D:
+        "só o elenco tem rotatividade".</p>
+    </div>
+
+    <div class="card" style="border-color:#B0EFD4;background:linear-gradient(180deg,#F1FFF9,#fff)">
+      <span class="rot">Painel honesto — D do lado da taxa</span>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:6px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Corpo de Baile</span>
+          <span style="font-weight:900;color:var(--fucsia);font-size:17px">D = 8</span>
+          <span class="chip alto" style="min-width:82px">23,08 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Instrução</span>
+          <span style="font-weight:900;color:var(--fucsia);font-size:17px">D = 1</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">Manutenção</span>
+          <span style="font-weight:900;color:var(--fucsia);font-size:17px">D = 1</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:16px">demais 5 áreas</span>
+          <span style="font-weight:900;color:var(--sub);font-size:17px">D = 0</span>
+          <span class="chip zero" style="min-width:82px">0,00 %</span></div>
+      </div>
+      <p style="margin-top:14px;font-size:16px;color:var(--sub)">Agora dá para perguntar a coisa certa:
+        por que Instrução e Manutenção tiveram saída e nenhuma entrada.</p>
+    </div>
+
+    <div class="card coral" style="grid-column:1 / -1">
+      <span class="rot">Antes de acreditar em taxa 0,00 % com saída registrada</span>
+      <p>Cruzar com a folha de setembro e com o sistema de ponto: é preciso saber se a admissão do mês
+         entrou na base na data certa. Taxa zero pode ser problema de gestão <b>ou</b> falha de
+         registro — o número não distingue as duas coisas.</p>
+    </div>
+  </div>
+
+  <svg class="danca" style="right:-18px;bottom:-8px;width:128px;height:172px;opacity:.22" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--sol)"/></svg>
+  <footer><span class="esq">Comparar sempre a coluna D com a coluna TR</span><span class="pag">10</span></footer>
+</section>
+
+<!-- ============================ 11 · LEITURA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Leitura</p>
+  <h2>O que os números <b>mostram</b></h2>
+  <p class="sub">Quatro leituras que o relatório sustenta. Nenhuma delas é causa.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:start">
+    <div class="card fucsia">
+      <span class="rot">01 · O agregado esconde volume</span>
+      <p>TR de 8,00 % sobre <b>10 desligamentos</b>. O Corpo de Baile concentra 8 das 10 saídas e
+         aparece com 23,08 %. Instrução e Manutenção somam 2 saídas e aparecem com 0,00 %.</p>
+    </div>
+    <div class="card violeta">
+      <span class="rot">02 · O numerador muda o sinal</span>
+      <p>Com <code>min(6,10)=6</code>, 40 % da informação do mês fica de fora. Numa empresa que
+         contrata pouco, a taxa <b>cai sozinha</b> quando a saída cresce.</p>
+    </div>
+    <div class="card ciano">
+      <span class="rot">03 · A saída do elenco é cedo</span>
+      <p>5 dos 10 desligamentos com até 6 meses de casa, 4 deles no Corpo de Baile. Perfil de
+         <b>integração</b> — hipótese a testar, não conclusão.</p>
+    </div>
+    <div class="card agua">
+      <span class="rot">04 · Voluntário domina, e os 2 involuntários são do mesmo lugar</span>
+      <p>8 de 10 saídas voluntárias. Os 2 dispensados estão no Corpo de Baile, um deles com 2 meses
+         de casa. Uma empresa que demite cedo e perde gente cedo, no mesmo grupo.</p>
+    </div>
+    <div class="card sol" style="grid-column:1 / -1">
+      <span class="rot">E o que a taxa não mede</span>
+      <p>Quem substituiu quem. Entrou uma bailarina, saiu uma bailarina, e a taxa não vê. Em uma
+         companhia de dança isso é central, porque o repertório é montado em cima de gente com nome,
+         corpo e técnica — nada disso está em <code>TR = min(A, D) ÷ E × 100</code>.</p>
+    </div>
+  </div>
+
+  <footer><span class="esq">Nenhum passo deste produce causa: causa exige entrevista</span><span class="pag">11</span></footer>
+</section>
+
+<!-- ============================ 12 · NÃO MOSTRA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Leitura · o outro lado</p>
+  <h2>O que os números <b>não mostram</b></h2>
+  <p class="sub">A parte que quase sempre some do relatório — e é a que segura a credibilidade dele.</p>
+
+  <div class="corpo">
+    <ul class="lista">
+      <li><b>A causa de nada.</b> Não existe um único dado aqui que diga por que as pessoas saíram.
+          Isso exige entrevista de desligamento — e é humano, não é planilha.</li>
+      <li class="nega"><b>Quem substituiu quem.</b> O indicador é agregado por construção; o próprio
+          MTE avisa que a taxa não quantifica substituição com o mesmo perfil ocupacional.</li>
+      <li class="nega"><b>Se 8,00 % é alto ou baixo.</b> <b>NÃO SEI.</b> Nenhuma fonte consultada
+          define valor de referência de turnover por setor, região ou porte. Qualquer frase do tipo
+          "está acima da média do setor" aqui seria invenção.</li>
+      <li class="nega"><b>Quanto custa.</b> <b>NÃO SEI.</b> Nenhuma fonte oficial lida traz o custo
+          do turnover — e nesse setor ele inclui ensaio, remontagem de repertório e remarcação de agenda.</li>
+      <li class="nega"><b>Se o padrão se repete.</b> Nove meses e uma base inventada não mostram nada
+          sobre o setor. Pior: parte dos padrões da base foi <b>plantada por mim</b> no gerador, então
+          ler "sazonalidade" aí é circular.</li>
+      <li class="nega"><b>Se a base está completa.</b> A cobertura é a companhia inteira por
+          construção, mas subnotificação o script não detecta — e aqui eu que gerei o arquivo.</li>
+    </ul>
+  </div>
+
+  <svg class="nota" style="right:24px;bottom:96px;width:28px;color:var(--coral)" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <footer><span class="esq">Declaração de limitação · obrigatória</span><span class="pag">12</span></footer>
+</section>
+
+<!-- ============================ 13 · HIPÓTESES ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Próximo passo · e é humano</p>
+  <h2>Hipóteses a <b>testar</b></h2>
+  <p class="sub">Cada uma com o método que a confirmaria ou derrubaria. Nenhuma delas é diagnóstico.</p>
+
+  <div class="corpo" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start">
+    <div class="hip">
+      <div class="h"><span>A perda do elenco é de integração</span>, não de salário</div>
+      <p><b>Testar:</b> entrevista de desligamento dos 5 casos de até 6 meses; verificar se existe
+         responsável nomeado por audição → primeiro ensaio → primeiro espetáculo, e em quanto tempo.</p>
+    </div>
+    <div class="hip" style="border-left-color:var(--violeta)">
+      <div class="h"><span>Setembro é mês de agenda</span>, não mês quebrado</div>
+      <p><b>Testar:</b> confrontar o D de setembro com o calendário de apresentações da companhia
+         (ensaios, festivais, estreia) e rodar o script para set/2024 e set/2025 — a base vai até
+         2015, então a série existe e ainda não foi rodada.</p>
+    </div>
+    <div class="hip" style="border-left-color:var(--fucsia)">
+      <div class="h"><span>Os 2 dispensados</span> são outro problema que os 8 espontâneos</div>
+      <p><b>Testar:</b> ver o processo — justa causa, reestruturação ou fim de projeto. Documento e
+         entrevista. Nada disso está no CSV, e não dá para inferir do motivo registrado.</p>
+    </div>
+    <div class="hip" style="border-left-color:var(--coral)">
+      <div class="h"><span>A = 0 em seis áreas</span> é real ou falha de registro</div>
+      <p><b>Testar:</b> cruzar com a folha de setembro e com o sistema de ponto. Antes de acreditar em
+         taxa 0,00 % com saída registrada, é preciso saber se a admissão entrou na base na data certa.</p>
+    </div>
+    <div class="hip" style="border-left-color:var(--agua);grid-column:1 / -1">
+      <div class="h"><span>A saída de longa faixa</span> (25+ meses) é evento pontual ou curva</div>
+      <p><b>Testar:</b> rodar o script mês a mês de 2024 e 2025 e ver se o padrão se repete. Um mês
+         é ponto; doze meses ainda é pouco, mas já é série.</p>
+    </div>
+  </div>
+
+  <footer><span class="esq">Causa é hipótese até a entrevista</span><span class="pag">13</span></footer>
+</section>
+
+<!-- ============================ 14 · NÃO SEI ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Declaração obrigatória</p>
+  <h2>O que <b>não sei</b></h2>
+  <p class="sub">Cada item aqui é uma lacuna real. Preencher com palpite é o jeito mais rápido de perder a credibilidade do trabalho.</p>
+
+  <div class="corpo">
+    <div class="nsei">
+      <div><b>NÃO SEI</b> turnover saudável do setor de dança, da região e do porte. Nenhuma fonte
+        lida define isso.</div>
+      <div><b>NÃO SEI</b> quanto custa substituir um bailarino treinado. Ensaio, repertório e
+        agenda não estão em nenhum campo deste CSV.</div>
+      <div><b>NÃO SEI</b> se o quadro é todo CLT. O CAGED cobre celetistas; a base simulada não
+        distingue o tipo de contrato, e essa distinção muda a cobertura do indicador.</div>
+      <div><b>NÃO SEI</b> se existe subnotificação nesta base. O script não detecta — e, aqui,
+        quem gerou a base fui eu.</div>
+      <div><b>NÃO SEI</b> se a sazonalidade observada é do setor. Ela é uma premissa do gerador:
+        achar padrão num dado construído para ter padrão é circular.</div>
+      <div><b>NÃO SEI</b> como setembro/2026 se compara com setembro/2025 — depende de você decidir
+        se a comparação entra no relatório.</div>
+    </div>
+    <div class="aviso" style="margin-top:13px;padding:15px 20px">
+      <span class="rot">⚠ A régua da benchmark</span>
+      <p style="font-size:17px">Benchmark só entra com <b>fonte, ano e setor</b>. Sem os três, a
+         resposta correta é <b>NÃO SEI</b> — não é "cerca de 30 % a 45 % ao ano" sem metodologia
+         publicada e sem autoria identificável, que é o que circula em blog de RH.</p>
+    </div>
+  </div>
+
+  <svg class="danca" style="left:-16px;bottom:-12px;width:126px;height:170px;opacity:.2" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--coral)"/></svg>
+  <footer><span class="esq">Sem benchmark inventado</span><span class="pag">14</span></footer>
+</section>
+
+<!-- ============================ 15 · DECISÃO HUMANA ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <p class="eyebrow">Pendências</p>
+  <h2>O que precisa de <b>decisão sua</b></h2>
+  <p class="sub">Coisas que o texto não pode resolver sozinho. A ordem é de importância.</p>
+
+  <div class="corpo">
+    <ul class="lista">
+      <li><b>Incluir setembro/2025 na comparação?</b> A regra do indicador pede o mesmo mês do ano
+          anterior. Eu já rodei: D = 10, A = 6, <b>TR = 8,11 %</b> — praticamente igual à de 2026,
+          mas com composição oposta: em 2025 houve <b>zero</b> involuntário e 1 aposentadoria com 79
+          meses de casa; em 2026, 2 dispensados e zero neutra. Mesma taxa, dois mundos opostos.
+          <b>Recomendação: incluir.</b></li>
+      <li><b>Bug encontrado na skill.</b> O <code>SKILL.md</code> documenta o motivo
+          <code>pedido demissao</code>; o <code>turnover.py</code> <b>recusa</b> esse valor e só
+          aceita <code>pedido de demissao</code>. Meu gerador seguiu o SKILL.md e a base foi rejeitada
+          em 19 linhas — e eu não contornei. Alinhar os dois é contigo.</li>
+      <li><b>A mediana do script.</b> Com número par de saídas, <code>turnover.py</code> reporta
+          <code>sorted(tempos)[len(tempos)//2]</code>, que é o elemento de cima do meio — não a mediana
+          usual. Em setembro/2025 isso muda o número publicado. Para relatório que vai a professor,
+          padronizar.</li>
+      <li><b>Como declarar a base simulada, e com que força.</b> Recomendação: no título e na
+          primeira linha, não em nota de rodapé. Base fictícia apresentada como real é plágio de dado.</li>
+      <li class="nega"><b>Dado real, se existir.</b> Se você tiver dados autorizados de alguma
+          companhia de dança, esta base vira descarte e a análise refaz sobre o dado verdadeiro.</li>
+      <li class="nega"><b>Autorização e base legal</b>, se um dia entrar dado de pessoa identificável.
+          Hoje a base usa código e nenhum nome, e o relatório sai agregado em faixa de tempo — isso é
+          minimização de propósito.</li>
+    </ul>
+  </div>
+
+  <footer><span class="esq">Rascunho · decisões pendentes do autor</span><span class="pag">15</span></footer>
+</section>
+
+<!-- ============================ 16 · ENCERRAMENTO ============================ -->
+<section class="slide">
+  <div class="barra"></div>
+  <svg class="danca" style="right:70px;bottom:120px;width:250px;height:337px" viewBox="0 0 130 175">
+    <use href="#bailarina" style="color:var(--violeta)"/></svg>
+  <svg class="nota" style="right:340px;bottom:420px;width:32px;color:var(--fucsia)" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <svg class="nota" style="right:22px;top:80px;width:26px;color:var(--sol);opacity:.9" viewBox="0 0 40 46"><use href="#nota"/></svg>
+  <svg class="nota" style="left:66px;top:120px;width:28px;color:var(--agua);opacity:.7" viewBox="0 0 40 46"><use href="#nota"/></svg>
+
+  <p class="eyebrow">Encerramento</p>
+  <h2>O que ficou, e o que <b>não</b> ficou</h2>
+
+  <div class="corpo" style="right:420px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
+      <div class="card agua"><span class="rot">Ficou</span>
+        <p>O método, a leitura por área com D do lado da taxa, a separação voluntário/involuntário,
+           a saída agregada e a declaração de limitação.</p></div>
+      <div class="card fucsia"><span class="rot">Não ficou</span>
+        <p>Causa de saída, valor de referência do setor, custo do turnover e qualquer afirmação sobre
+           comportamento do mercado de dança.</p></div>
+    </div>
+
+    <div class="card ciano">
+      <span class="rot">Arquivos envolvidos</span>
+      <p style="font-family:Consolas,monospace;font-size:15.5px;line-height:1.7">
+        dados/gerador-companhia-danca.py<br>
+        dados/turnover-companhia-danca.csv<br>
+        saidas/turnover-companhia-danca-resultado.md<br>
+        .opencode/skills/analise-turnover/scripts/turnover.py
+      </p>
+    </div>
+
+    <div class="card sol" style="margin-top:16px">
+      <span class="rot">Referência</span>
+      <p>Ministério do Trabalho e Emprego, "O que é CAGED" — página lida <b>por inteiro</b> em
+         13/10/2026. Nenhuma outra fonte foi usada, e nenhuma fonte de benchmark entrou.</p>
+    </div>
+  </div>
+
+  <footer><span class="esq">Base simulada · semente 20260913 · rascunho</span><span class="pag">16</span></footer>
+</section>
+
+</div>
+
+<div id="nav">
+  <button id="ant" title="Anterior">&#8249;</button>
+  <input id="atual" value="1" title="Ir para o slide"> <span>/ 16</span>
+  <button id="prox" title="Próximo">&#8250;</button>
+  <button id="tela" title="Tela cheia">&#9744;</button>
+</div>
+<div id="ajuda">setas navegam · F tela cheia · Ctrl+P gera PDF</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var i=0;
+  function ajusta(){
+    var e=Math.min(window.innerWidth/1280, window.innerHeight/720);
+    slides.forEach(function(s){ s.style.transform='scale('+e+')'; });
+  }
+  function ir(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){ s.classList.toggle('ativo',k===i); });
+    document.getElementById('atual').value=(i+1);
+    location.hash=(i+1);
+  }
+  window.addEventListener('resize',ajusta);
+  window.addEventListener('hashchange',function(){
+    var n=parseInt(location.hash.replace('#',''),10);
+    if(n && n-1!==i) ir(n-1);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT') return;
+    if(['ArrowRight','PageDown',' ','Enter','n'].indexOf(e.key)>=0){ ir(i+1); e.preventDefault(); }
+    else if(['ArrowLeft','PageUp','p'].indexOf(e.key)>=0){ ir(i-1); e.preventDefault(); }
+    else if(e.key==='Home'){ ir(0); }
+    else if(e.key==='End'){ ir(slides.length-1); }
+    else if(e.key==='f'||e.key==='F'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+  });
+  document.getElementById('palco').addEventListener('click',function(e){
+    ir(e.clientX < window.innerWidth*0.3 ? i-1 : i+1);
+  });
+  document.getElementById('ant').onclick=function(e){ e.stopPropagation(); ir(i-1); };
+  document.getElementById('prox').onclick=function(e){ e.stopPropagation(); ir(i+1); };
+  document.getElementById('tela').onclick=function(e){
+    e.stopPropagation();
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  };
+  document.getElementById('atual').addEventListener('change',function(){ ir(this.value-1); });
+  ajusta();
+  ir(parseInt(location.hash.replace('#',''),10)-1 || 0);
+})();
+</script>
+</body>
+</html>

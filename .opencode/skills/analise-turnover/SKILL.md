@@ -17,7 +17,7 @@ quem decide. O cálculo não é feito aqui: é feito pelo `scripts/turnover.py`.
 ## Quando não usar
 
 - **Servidor público.** O CAGED cobre CLT. Método e denominador não são
- transferíveis sem ajuste — não reaproveitar o número.
+  transferíveis sem ajuste — não reaproveitar o número.
 - Ausência de dados de desligamento por pessoa. Sem a movimentação individual não
   há taxa; entregar o pedido de dados, não a análise.
 - Comparação entre organizações sem saber a cobertura de cada base.
@@ -63,7 +63,7 @@ lista o que falta. Não contornar.
 | Espontâneo alto | Salário, carga, chefia, falta de crescimento | Qual dos quatro |
 | Dispensado alto | Problema de gestão ou de meta | Quem errou |
 | Saída nos primeiros meses | Integração e onboarding | Que o processo de admissão é o culpado |
-| Saída após muitos anos | Carreira, Pensionamento, reestruturação | Que a empresa não retém ninguém |
+| Saída após muitos anos | Carreira, aposentadoria, reestruturação | Que a empresa não retém ninguém |
 | TR baixa com D alto | Indicador agregado mascarando volume | Que está tudo bem |
 
 ## Regras
@@ -86,7 +86,7 @@ Cada regra pode ser violada. Se nenhuma puder, apague e escreva outra.
 7. **Saída agregada, sempre.** Nenhum relatório mostra nome, `id` ou caso
    individual. Vira "N casos na área X". Se o pedido for nominativo, recusar e
    dizer que o dado não circula.
-8. **Askill não emite juízo de valor.** Ela calcula e organiza. "Alto" ou "baixo"
+8. **A skill não emite juízo de valor.** Ela calcula e organiza. "Alto" ou "baixo"
    é judgement de quem responde pela área, com o mercado da região na cabeça.
 9. **Causa é hipótese até a entrevista.** Escrever "hipótese a testar", nunca
    "a causa é".

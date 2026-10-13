@@ -41,8 +41,20 @@ pdf.add_page()
 pdf.set_fill_color(*OFFWHITE)
 pdf.rect(0, 20, 210, 270, 'F')
 
-with open('skill.md', encoding='utf-8') as f:
+import os
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+FONTE = os.path.join(BASE, '.opencode', 'skills', 'natura-documentos', 'SKILL.md')
+SAIDA = os.path.join(BASE, 'skill.pdf')
+
+with open(FONTE, encoding='utf-8') as f:
     lines = f.read().splitlines()
+
+# o frontmatter e' metadado da skill: nao vai para o PDF
+if lines and lines[0].strip() == '---':
+    fim = next((n for n, l in enumerate(lines[1:], 1) if l.strip() == '---'), None)
+    if fim is not None:
+        lines = lines[fim + 1:]
 
 acent_cycle = [TERRACOTA, AMARELO_SOL, VERDE_CLARO, MARROM_TERRA]
 i = 0
@@ -102,5 +114,5 @@ pdf.ellipse(95, y, 10, 5, 'F')
 pdf.set_fill_color(*VERDE_FLORESTA)
 pdf.ellipse(105, y + 2, 10, 5, 'F')
 
-pdf.output('skill.pdf')
-print('criado skill.pdf colorido')
+pdf.output(SAIDA)
+print('criado', SAIDA, 'colorido')

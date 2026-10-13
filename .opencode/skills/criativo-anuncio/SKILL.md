@@ -62,7 +62,7 @@ apague a regra e escreva outra.
    fonte verificável no briefing. Sem fonte, trocar por descrição concreta.
 4. **Nada de dado pessoal.** CPF, RG, endereço residencial, telefone e nome de
    cliente não entram, nem em exemplo. Vale para a LGPD e para a lei de
-   publicity de cada canal.
+   publicidade de cada canal.
 5. **Contagem à mostra.** Todo campo sai com `n caracteres`. Se estourar o
    recomendado, entregar versão curta e a longa, e avisar qual usar.
 6. **Dúvida marcada, não omitida.** Ponto não confirmado vira `[CONFERIR]` no
@@ -88,7 +88,7 @@ Data: {data} | Canal: {canal} | Briefing usado: {caminho do arquivo}
 | V1 | ... | {n} |
 
 ## Antes de publicar
-- [ ] Oferta conferida com quemRESPONDE pela campanha: {nome}
+- [ ] Oferta conferida com quem responde pela campanha: {nome}
 - [ ] {outros itens do checklist}
 ```
 
