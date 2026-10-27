@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>API do WhatsApp — alcance, limite e o que os dados oficiais mostram</title>
+<style>
+:root{
+  --bordo:#6B2B3A;
+  --bordo-claro:#B98A94;
+  --bordo-fundo:#F4E8EA;
+  --musgo:#5E6B4F;
+  --musgo-claro:#A8B79A;
+  --musgo-fundo:#EDF0E6;
+  --tinta:#3F3F3D;
+  --cinza:#75756F;
+  --cinza-claro:#9A9A93;
+  --linha:#E3E0D6;
+  --areia:#F7F5EF;
+  --papel:#FFFDF9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--areia);
+  color:var(--tinta);
+  font-family:"Segoe UI",Calibri,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+
+/* ---------------------------------------------------------------- capa */
+header.capa{
+  background:var(--papel);
+  border-bottom:1px solid var(--linha);
+  padding:64px 0 46px;
+}
+.capa .selo{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--musgo);border:1px solid var(--musgo-claro);border-radius:2px;
+  padding:5px 12px;margin-bottom:26px;background:var(--musgo-fundo);
+}
+.capa h1{
+  font-size:44px;line-height:1.14;font-weight:600;letter-spacing:-.4px;color:var(--bordo);
+  max-width:780px;
+}
+.capa h1 em{font-style:normal;color:var(--musgo)}
+.capa .lead{margin-top:22px;font-size:20px;line-height:1.55;color:#55554F;max-width:700px}
+.capa .meta{
+  margin-top:34px;padding-top:18px;border-top:1px solid var(--linha);
+  display:flex;gap:34px;flex-wrap:wrap;font-size:14px;color:var(--cinza)
+}
+.capa .meta b{display:block;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--cinza-claro);font-weight:700;margin-bottom:3px}
+
+/* ------------------------------------------------------------- seção */
+section{padding:54px 0;border-bottom:1px solid var(--linha)}
+section:last-of-type{border-bottom:none}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;
+  color:var(--musgo);margin-bottom:10px}
+h2{font-size:30px;line-height:1.22;font-weight:600;color:var(--bordo);letter-spacing:-.2px;max-width:760px}
+h2 small{display:block;font-size:16px;font-weight:400;letter-spacing:0;color:var(--cinza);margin-top:10px}
+h3{font-size:18px;font-weight:600;color:var(--bordo);margin-bottom:6px}
+p{max-width:720px}
+p+p{margin-top:14px}
+.sub{color:var(--cinza);font-size:16px}
+
+/* ------------------------------------------------------------- cards */
+.grid{display:grid;gap:18px;margin-top:26px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{
+  background:var(--papel);border:1px solid var(--linha);border-radius:3px;padding:20px 22px;
+}
+.card .rot{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--cinza-claro);margin-bottom:8px}
+.card p{font-size:15.5px;color:#55554F;line-height:1.55}
+
+/* --------------------------------------------------------------- kpi */
+.kpi{background:var(--papel);border:1px solid var(--linha);border-radius:3px;padding:22px}
+.kpi .rot{display:block;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--cinza-claro);margin-bottom:6px;min-height:32px}
+.kpi .v{font-size:38px;font-weight:600;color:var(--bordo);line-height:1.05;letter-spacing:-1px}
+.kpi .v span{font-size:19px;font-weight:500;color:var(--cinza);letter-spacing:0}
+.kpi .nota{display:block;margin-top:8px;font-size:13.5px;color:var(--cinza);line-height:1.45}
+.kpi.musgo .v{color:var(--musgo)}
+.kpi.cinza .v{color:#5C5C58}
+
+/* -------------------------------------------------------------- chart */
+.chart{margin-top:26px;background:var(--papel);border:1px solid var(--linha);border-radius:3px;padding:22px 22px 12px}
+.chart .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:6px}
+.chart .titulo{font-size:15px;font-weight:600;color:var(--bordo)}
+.chart .nota{font-size:12.5px;color:var(--cinza);max-width:420px;text-align:right}
+.legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--cinza)}
+.legend i{display:inline-block;width:22px;height:3px;border-radius:2px;vertical-align:middle;margin-right:7px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:"Segoe UI",Calibri,Arial,sans-serif}
+
+/* --------------------------------------------------------------- bars */
+.bars{margin-top:8px}
+.bar-row{display:grid;grid-template-columns:190px 1fr 62px;gap:14px;align-items:center;
+  padding:6px 0;border-bottom:1px dotted var(--linha)}
+.bar-row:last-child{border-bottom:none}
+.bar-row .lab{font-size:14.5px;color:#4F4F4B}
+.bar-row .trilha{height:12px;background:#EFEDE5;border-radius:1px;overflow:hidden}
+.bar-row .trilha i{display:block;height:100%;background:var(--musgo-claro);border-radius:1px}
+.bar-row .val{font-size:14px;font-weight:600;color:var(--bordo);text-align:right;
+  font-variant-numeric:tabular-nums}
+.bar-row.destaque .trilha i{background:var(--bordo-claro)}
+.bar-row.destaque .val{color:var(--musgo)}
+
+/* -------------------------------------------------------------- lists */
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+ol.rank{list-style:none;counter-reset:r}
+ol.rank li{counter-increment:r;display:flex;justify-content:space-between;gap:14px;
+  padding:7px 0;border-bottom:1px dotted var(--linha);font-size:15px}
+ol.rank li::before{content:counter(r);color:var(--cinza-claro);font-size:12px;
+  font-weight:700;width:18px;flex:0 0 18px}
+ol.rank li span:first-of-type{flex:1}
+ol.rank li b{font-weight:600;color:var(--bordo);font-variant-numeric:tabular-nums}
+
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+th{text-align:left;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--cinza-claro);font-weight:700;padding:0 10px 8px 0;border-bottom:1px solid var(--linha)}
+td{padding:9px 10px 9px 0;border-bottom:1px dotted var(--linha);color:#4F4F4B}
+td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--bordo)}
+
+/* ------------------------------------------------------------ avisos */
+.nsei{margin-top:24px;border:1px dashed var(--bordo-claro);background:var(--bordo-fundo);
+  border-radius:3px;padding:20px 22px}
+.nsei h3{color:var(--bordo);margin-bottom:10px}
+.nsei ul{list-style:none}
+.nsei li{position:relative;padding-left:20px;font-size:15px;line-height:1.55;margin-bottom:9px;color:#4F4F4B}
+.nsei li::before{content:"—";position:absolute;left:0;color:var(--bordo-claro)}
+.nsei li b{color:var(--bordo);font-weight:600}
+
+.codigo{
+  background:#2F2F2C;color:#E8E4D8;border-radius:3px;padding:16px 18px;margin-top:16px;
+  font-family:Consolas,"Courier New",monospace;font-size:13px;line-height:1.65;
+  white-space:pre-wrap;word-break:break-word;overflow-x:auto;
+}
+.codigo .verde{color:#B7C6A4}
+.codigo .vermelho{color:#E0A3AC}
+.codigo .fraco{color:#9A9A92}
+.note{font-size:13px;color:var(--cinza);margin-top:10px;max-width:720px}
+
+footer.rodape{background:var(--papel);border-top:1px solid var(--linha);padding:34px 0 46px;
+  font-size:14px;color:var(--cinza)}
+footer.rodape b{color:var(--bordo);font-weight:600}
+footer.rodape a{color:var(--musgo);text-decoration:none;border-bottom:1px solid var(--musgo-claro)}
+.skill{display:inline-block;font-size:12px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--musgo);background:var(--musgo-fundo);border:1px solid var(--musgo-claro);
+  border-radius:2px;padding:3px 9px;margin-top:10px}
+
+@media (max-width:820px){
+  .g3,.g4,.g2,.duas{grid-template-columns:1fr}
+  .capa h1{font-size:32px}
+  .bar-row{grid-template-columns:120px 1fr 52px}
+  .chart .nota{text-align:left}
+  .chart .top{flex-direction:column}
+}
+@media print{
+  body{background:#fff;font-size:11pt}
+  section{page-break-inside:avoid}
+  .codigo{background:#F4F1E9;color:#333}
+}
+</style>
+</head>
+<body>
+
+<header class="capa">
+  <div class="wrap">
+    <span class="selo">artefato acadêmico · DECC0294</span>
+    <h1>A API do WhatsApp existe. <em>A pergunta é quem ela alcança.</em></h1>
+    <p class="lead">Este documento olha para a API oficial de mensagens da Meta e para o alcance
+      real do celular com internet no Brasil. A ideia é simples: antes de decidir usar um canal,
+      vale saber para quantas pessoas ele chega — e para quem ele não chega.</p>
+    <div class="meta">
+      <div><b>dados</b>IBGE · PNAD Contínua TIC, 2016–2025</div>
+      <div><b>coleta</b>API oficial de dados agregados do IBGE</div>
+      <div><b>verificação</b>Graph API da Meta, chamada real sem token</div>
+      <div><b>data</b>27 de outubro de 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- 1 ------------------------------------------------------------ contexto -->
+<section id="contexto">
+  <div class="wrap">
+    <div class="eyebrow">1 · contexto</div>
+    <h2>O que é, em termos práticos, a API do WhatsApp
+      <small>Quatro peças que explicam por que ela é infraestrutura de gestão, e não só um aplicativo de conversa.</small>
+    </h2>
+
+    <div class="grid g2">
+      <div class="card">
+        <span class="rot">acesso</span>
+        <h3>Cloud API, dentro da Graph API</h3>
+        <p>O envio e o recebimento passam por HTTP, contra o endereço da Graph API da Meta,
+           com o identificador do número de telefone no caminho. Não há servidor de WhatsApp
+           para instalar: a Meta hospeda o transporte.</p>
+      </div>
+      <div class="card">
+        <span class="rot">credencial</span>
+        <h3>Token e verificação do negócio</h3>
+        <p>Chamada sem token é recusada. Além do token, a conta empresarial passa por verificação
+           e o nome de exibição do número é aprovado antes de a operação começar.</p>
+      </div>
+      <div class="card">
+        <span class="rot">regra de conversa</span>
+        <h3>Modelo aprovado para iniciar</h3>
+        <p>Fora de uma janela de atendimento aberta pelo cliente, a empresa não escreve texto livre:
+           envia um modelo (template) previamente aprovado, com variáveis preenchidas.</p>
+      </div>
+      <div class="card">
+        <span class="rot">retorno</span>
+        <h3>Webhooks contam o que aconteceu</h3>
+        <p>Entrega, leitura e resposta chegam por chamada da Meta ao endereço da empresa.
+           Sem webhook, o painel não sabe se a mensagem foi entregue — e o indicador vira chute.</p>
+      </div>
+    </div>
+
+    <p class="note">Os detalhes acima descrevem o funcionamento documentado da plataforma. Preço por
+      mensagem, limites de disparo e categorias de modelo mudam com frequência; não citei valores
+      porque não conferi a tabela vigente — está anotado como NÃO SEI no fim do documento.</p>
+  </div>
+</section>
+
+<!-- 2 -------------------------------------------------------- verificação -->
+<section id="verificacao">
+  <div class="wrap">
+    <div class="eyebrow">2 · verificação honesta</div>
+    <h2>A API oficial respondeu. Recusou por falta de credencial.
+      <small>Em vez de fingir um número de mensagens enviadas, o documento mostra o que aconteceu quando
+        a gente chamou de verdade.</small>
+    </h2>
+
+    <pre class="codigo"><span class="fraco">GET</span> https://graph.facebook.com/v21.0/me
+<span class="fraco">──</span> <span class="vermelho" id="meta-status">—</span>
+
+{
+  "error": {
+    "message": "<span id="meta-msg">—</span>",
+    "type": "OAuthException",
+    "code": <span id="meta-code">—</span>
+  }
+}</pre>
+    <p class="note" id="meta-nota">—</p>
+
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <span class="rot">o que isso prova</span>
+        <p>Que o endpoint existe, é público e devolve o formato de erro da Meta. A análise deste
+           documento não depende de acesso pago: ela usa outra API pública e oficial.</p>
+      </div>
+      <div class="card">
+        <span class="rot">o que isso não prova</span>
+        <p>Nada sobre volume de mensagens, número de empresas atendidas ou adoção do canal.
+           Para esses números seria preciso um token com permissão e um contrato de acesso — não temos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 --------------------------------------------------------- alcance -->
+<section id="alcance">
+  <div class="wrap">
+    <div class="eyebrow">3 · análise de dados</div>
+    <h2>Quem pode ser atendido por esse canal
+      <small>População de 10 anos ou mais de idade, Brasil, 2025. Fonte: IBGE, PNAD Contínua TIC,
+        coletada na API de dados agregados.</small>
+    </h2>
+
+    <div class="grid g4" id="kpis" style="margin-top:26px"></div>
+
+    <div class="chart">
+      <div class="top">
+        <div class="titulo">A curva do acesso, 2016 a 2025</div>
+        <div class="nota" id="chart-nota">—</div>
+      </div>
+      <div id="linha"></div>
+      <div class="legend" id="legenda"></div>
+    </div>
+
+    <div class="duas">
+      <div>
+        <h3>Onde o acesso é maior e menor</h3>
+        <p class="sub">Percentual de pessoas de 10 anos ou mais que usaram internet nos últimos três
+          meses, por grande região, 2025. Escala de 0 a 100%.</p>
+        <div class="bars" id="regioes"></div>
+        <p class="note" id="regioes-nota"></p>
+      </div>
+      <div>
+        <h3>Escolaridade abre um fosso</h3>
+        <p class="sub">Mesmo indicador, por nível de instrução, 2025. É o recorte com a maior
+          diferença interna.</p>
+        <div class="bars" id="instrucao"></div>
+        <p class="note" id="instrucao-nota"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -------------------------------------------------------------- idade -->
+<section id="idade">
+  <div class="wrap">
+    <div class="eyebrow">4 · quem fica de fora</div>
+    <h2>O canal é quase universal entre adultos. Não é entre crianças e idosos.
+      <small>Posse de telefone celular para uso pessoal, por grupo de idade, 2025.</small>
+    </h2>
+    <div class="chart">
+      <div class="top">
+        <div class="titulo">Posse de celular por idade — % da população do grupo</div>
+        <div class="nota">Duas pontas puxam a média para baixo: 10 a 13 anos e 60 anos ou mais.</div>
+      </div>
+      <div id="idade-bars" class="bars"></div>
+    </div>
+
+    <div class="duas" style="margin-top:26px">
+      <div>
+        <h3>Leitura de gestão</h3>
+        <p>Um canal com 90% de alcance é infraestrutura, não experimento. Mas os 10% de fora não
+           estão distribuídos ao acaso: concentram-se em quem tem menos escolaridade e menos idade.
+           Quem desenha o serviço só com WhatsApp repete essa exclusão.</p>
+        <p>A saída usual é canal híbrido: WhatsApp como porta principal, com alternativa por telefone
+           ou presencial para quem ficou fora.</p>
+      </div>
+      <div>
+        <h3>O erro comum na leitura</h3>
+        <p>Ter celular não é querer conversar com empresa. A base mede posse e uso de internet,
+           não consentimento nem preferência de atendimento.</p>
+        <p>E alcance alto não significa custo baixo: a cobrança da plataforma é por conversa, e o
+           desenho do fluxo pesa mais no orçamento do que o volume bruto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 ---------------------------------------------------------------- UF -->
+<section id="uf">
+  <div class="wrap">
+    <div class="eyebrow">5 · território</div>
+    <h2>O ranking por estado mede população, não acesso
+      <small>Pessoas de 10 anos ou mais que usaram internet, em milhares, por unidade da federação, 2025.</small>
+    </h2>
+    <div class="duas">
+      <div>
+        <h3>Maiores volumes</h3>
+        <ol class="rank" id="uf-top"></ol>
+      </div>
+      <div>
+        <h3>Menores volumes</h3>
+        <ol class="rank" id="uf-bottom"></ol>
+      </div>
+    </div>
+    <p class="note" id="uf-nota">—</p>
+  </div>
+</section>
+
+<!-- 6 -------------------------------------------------------- limitações -->
+<section id="limites">
+  <div class="wrap">
+    <div class="eyebrow">6 · limites e honestidade</div>
+    <h2>O que este documento não sabe
+      <small>Declarar o limite é parte do resultado. O que ficou fora está escrito, não escondido.</small>
+    </h2>
+
+    <div class="nsei">
+      <h3>NÃO SEI</h3>
+      <ul>
+        <li><b>Preço e limite vigentes da plataforma.</b> A tabela de cobrança e as regras de
+          disparo mudam; não conferi a versão atual.</li>
+        <li><b>Quantas empresas usam a API no Brasil.</b> Não há série pública que eu tenha
+          verificado com essa contagem.</li>
+        <li><b>Uso específico de WhatsApp.</b> A PNAD mede internet e celular, não o aplicativo.
+          Dizer que 90% usam WhatsApp é extrapolação — não faço.</li>
+        <li><b>Taxa de acesso por estado.</b> A API publica número absoluto por UF, não percentual;
+          comparar estados pelo volume é comparar tamanho de população.</li>
+        <li><b>Consentimento e preferência.</b> Nenhuma base pública consultada diz se a pessoa
+          quer ser atendida por mensagem.</li>
+      </ul>
+    </div>
+
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card"><span class="rot">o que a base mede</span>
+        <p>Pessoas de 10 anos ou mais, em domicílios, que usaram internet nos últimos três meses
+           e que tinham celular para uso pessoal.</p></div>
+      <div class="card"><span class="rot">o que ela não mede</span>
+        <p>Intenção de compra, tolerância a mensagem de empresa, tempo de resposta, conversão.</p></div>
+      <div class="card"><span class="rot">onde melhorar</span>
+        <p>Buscar a série de empresas que usam a API, e uma pesquisa primária sobre disposição
+           de atendimento por mensagem na região de interesse.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 ------------------------------------------------------------ método -->
+<section id="metodo">
+  <div class="wrap">
+    <div class="eyebrow">7 · método e fontes</div>
+    <h2>Como cada número chegou aqui</h2>
+    <table>
+      <tr><th>indicador</th><th>agregado IBGE</th><th>variável</th><th>recorte</th></tr>
+      <tr><td>% usou internet</td><td>9521</td><td>10659</td><td>Brasil e grandes regiões, 2016–2025</td></tr>
+      <tr><td>% tem celular</td><td>7361</td><td>10663</td><td>Brasil, 2016–2025; por idade em 2025</td></tr>
+      <tr><td>% celular com internet</td><td>7369</td><td>10671</td><td>Brasil, 2016–2025</td></tr>
+      <tr><td>pessoas que usaram internet (mil)</td><td>7325</td><td>140</td><td>Brasil e UFs, 2025</td></tr>
+      <tr><td>% por escolaridade</td><td>7336</td><td>10659</td><td>Brasil, 2025</td></tr>
+    </table>
+    <p class="note">O script de coleta consulta a API, salva a resposta bruta em <code>bruto/</code>
+      e monta este documento. Rodar de novo em outro dia pode devolver revisão diferente: o IBGE
+      atualiza as séries.</p>
+
+    <div class="meta" style="margin-top:26px;padding-top:18px;border-top:1px solid var(--linha);display:flex;gap:44px;flex-wrap:wrap;font-size:14px;color:var(--cinza)">
+      <div><b style="display:block;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cinza-claro)">coletado em</b><span id="ficha-data">—</span></div>
+      <div><b style="display:block;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cinza-claro)">scripts</b><span id="ficha-scripts">—</span></div>
+      <div><b style="display:block;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cinza-claro)">registros</b><span id="ficha-reg">—</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <p><b>Fontes:</b> IBGE, Pesquisa Nacional por Amostra de Domicílios Contínua — Tecnologias da
+       Informação e Comunicação, via API de dados agregados
+       (<a href="https://servicodados.ibge.gov.br/api/docs/agregados?versao=3">servicodados.ibge.gov.br/api/docs</a>);
+       Meta, Graph API — chamada de verificação documentada na seção 2.</p>
+    <p style="margin-top:12px">Documento gerado localmente, sem chamada de rede ao abrir. Números
+       vindos da API; texto, recortes e interpretação são de responsabilidade de quem assina.</p>
+    <span class="skill">identidade e tom definidos pela skill natura-documentos</span>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const D = __DADOS__;
+
+/* ---------------------------------------------------------- utilidades */
+const fmt = n => (Math.round(n*10)/10).toLocaleString("pt-BR", {minimumFractionDigits:0, maximumFractionDigits:1});
+const fmtMil = n => Math.round(n).toLocaleString("pt-BR");
+const p1 = v => v.toFixed(1).replace(".", ",");
+const EH = (a,b) => Math.abs(a-b);
+
+/* --------------------------------------------------------------- KPIs */
+const ult = a => D.series[a];
+function valorUltimo(chave){ const s = ult(chave).serie; const anos = Object.keys(s); return s[anos[anos.length-1]]; }
+const abs = {};
+D.brasil_abs.forEach(x => { abs[x.categoria.split(" / ")[0]] = x.valor; });
+
+const kpis = [
+  {rot:"usou internet em 2025", v: p1(valorUltimo("internet"))+"%", nota:
+    "da população de 10 anos ou mais. Base: " + fmtMil(abs["Total"]) + " mil pessoas."},
+  {rot:"tinha celular em 2025", v: p1(valorUltimo("celular"))+"%", nota:"posse de celular para uso pessoal, não de smartphone.", musgo:true},
+  {rot:"celular com internet", v: p1(valorUltimo("celular_com_internet"))+"%", nota:"entre quem já tinha celular. O aparelho deixou de ser o gargalo."},
+  {rot:"pessoas alcançáveis", v: (abs["Utilizaram internet"]/1000).toFixed(1).replace(".",",")+" <span>milhões</span>", nota:"pessoas de 10+ que usaram internet no período. É o teto técnico do canal."},
+];
+document.getElementById("kpis").innerHTML = kpis.map(k =>
+  "<div class='kpi "+(k.musgo?"musgo":"")+"'><span class='rot'>"+k.rot+"</span>"+
+  "<div class='v'>"+k.v+"</div><span class='nota'>"+k.nota+"</span></div>").join("");
+
+/* --------------------------------------------------------------- linha */
+document.getElementById("chart-nota").innerHTML =
+  "A série não tem 2020: a PNAD Contínua não divulgou o suplemento naquele ano. " +
+  "O trecho entre 2019 e 2021 aparece tracejado.";
+
+(function desenhaLinha(){
+  const W=980, H=310, pad={t:52,r:26,b:34,l:46};
+  const anos = Object.keys(D.series.internet.serie);
+  const vals = [];
+  ["internet","celular"].forEach(k => Object.values(D.series[k].serie).forEach(v => vals.push(v)));
+  const min = Math.floor(Math.min(...vals)/5)*5 - 2, max = Math.ceil(Math.max(...vals)/5)*5 + 1;
+  const x = i => pad.l + i*(W-pad.l-pad.r)/(anos.length-1);
+  const y = v => H-pad.b - (v-min)/(max-min)*(H-pad.t-pad.b);
+  const cor = {internet:"#5E6B4F", celular:"#6B2B3A"};
+  let svg = "<svg viewBox='0 0 "+W+" "+H+"' role='img' aria-label='Percentual de acesso a internet e posse de celular, 2016 a 2025'>";
+
+  // grade
+  for(let gy = min; gy <= max; gy += 10){
+    svg += "<line x1='"+pad.l+"' y1='"+y(gy)+"' x2='"+(W-pad.r)+"' y2='"+y(gy)+"' stroke='#EDEAE0' stroke-width='1'/>";
+    svg += "<text x='"+(pad.l-12)+"' y='"+(y(gy)+4)+"' text-anchor='end' font-size='11' fill='#9A9A93'>"+gy+"%</text>";
+  }
+  anos.forEach((a,i) => {
+    svg += "<text x='"+x(i)+"' y='"+(H-12)+"' text-anchor='middle' font-size='11.5' fill='#9A9A93'>"+a+"</text>";
+  });
+
+  // séries: linha cheia nos anos consecutivos, tracejado no salto 2019 -> 2021
+  ["celular","internet"].forEach(k => {
+    const s = D.series[k].serie;
+    let d = "", anterior = null;
+    anos.forEach((a,i) => {
+      const v = s[a];
+      if(v === undefined || v === null) return;
+      if(anterior === null){ d += "M"+x(i)+","+y(v); }
+      else if(parseInt(a,10) - parseInt(anterior.a,10) > 1){
+        // lacuna na série: interrompe a linha cheia e desenha o trecho tracejado
+        d += " M"+x(i)+","+y(v);
+        svg += "<line x1='"+x(anterior.i)+"' y1='"+y(anterior.v)+"' x2='"+x(i)+"' y2='"+y(v)+
+               "' stroke='"+cor[k]+"' stroke-width='2' stroke-dasharray='6 7' opacity='.5'/>";
+      } else {
+        d += " L"+x(i)+","+y(v);
+      }
+      anterior = {i, a, v};
+    });
+    svg += "<path d='"+d+"' fill='none' stroke='"+cor[k]+"' stroke-width='2.6' "+
+           "stroke-linecap='round' stroke-linejoin='round'/>";
+    anos.forEach((a,i) => {
+      const v = s[a];
+      if(v === undefined || v === null) return;
+      svg += "<circle cx='"+x(i)+"' cy='"+y(v)+"' r='3.4' fill='#FFFDF9' stroke='"+cor[k]+"' stroke-width='2'/>";
+    });
+  });
+
+  // anotação do último ano em uma linha só
+  const a2025 = "2025";
+  const vInt = D.series.internet.serie[a2025], vCel = D.series.celular.serie[a2025];
+  svg += "<text x='"+(W-pad.r)+"' y='20' text-anchor='end' font-size='12.5'>"+
+         "<tspan fill='#9A9A93' letter-spacing='1.4' font-size='10.5'>EM 2025 · </tspan>"+
+         "<tspan fill='#5E6B4F' font-weight='600'>internet "+p1(vInt)+"%</tspan>"+
+         "<tspan fill='#9A9A93'> · </tspan>"+
+         "<tspan fill='#6B2B3A' font-weight='600'>celular "+p1(vCel)+"%</tspan></text>";
+
+  svg += "</svg>";
+  document.getElementById("linha").innerHTML = svg;
+  document.getElementById("legenda").innerHTML =
+    "<span><i style='background:#5E6B4F'></i>usaram internet</span>"+
+    "<span><i style='background:#6B2B3A'></i>tinham celular</span>"+
+    "<span style='color:#9A9A93'>linha tracejada = intervalo sem dado (2019 → 2021)</span>";
+})();
+
+/* -------------------------------------------------------------- barras */
+function barras(id, dados, melhorCaso){
+  // escala honesta: largura proporcional de 0 a 100%
+  document.getElementById(id).innerHTML = dados.map(d => {
+    const dest = melhorCaso ? melhorCaso(d) : false;
+    return "<div class='bar-row "+(dest?"destaque":"")+"'>"+
+      "<span class='lab'>"+d.categoria+"</span>"+
+      "<span class='trilha'><i style='width:"+Math.max(0,d.valor).toFixed(1)+"%'></i></span>"+
+      "<span class='val'>"+p1(d.valor)+"%</span></div>";
+  }).join("");
+}
+
+// regiões: ordena da maior para a menor
+const regioes = D.regioes.slice().sort((a,b)=>b.valor-a.valor)
+  .map(r => ({categoria:r.nome, valor:r.valor}));
+barras("regioes", regioes, d => d.valor === regioes[regioes.length-1].valor);
+const ampReg = regioes[0].valor - regioes[regioes.length-1].valor;
+document.getElementById("regioes-nota").innerHTML =
+  "Amplitude de "+p1(ampReg)+" pontos percentuais entre "+regioes[0].categoria+
+  " ("+p1(regioes[0].valor)+"%) e "+regioes[regioes.length-1].categoria+
+  " ("+p1(regioes[regioes.length-1].valor)+"%). Em acesso, a distância entre regiões é menor do que o senso comum sugere.";
+
+// instrução: ordena da menor para a maior
+const limpa = s => s.split(" / ")[0].trim();
+const inst = D.instrucao.map(i => ({categoria:limpa(i.categoria), valor:i.valor}))
+  .filter(i => i.categoria !== "Total")
+  .sort((a,b)=>b.valor-a.valor);
+barras("instrucao", inst, d => d.valor === inst[inst.length-1].valor);
+document.getElementById("instrucao-nota").innerHTML =
+  "Do grupo com superior incompleto ("+p1(inst[0].valor)+"%) ao sem instrução e fundamental "+
+  "incompleto ("+p1(inst[inst.length-1].valor)+"%): "+p1(inst[0].valor-inst[inst.length-1].valor)+
+  " pontos percentuais. É o recorte em que o canal mais deixa gente de fora.";
+
+// idade: mantém ordem etária
+const idade = D.idade.map(i => ({categoria:limpa(i.categoria), valor:i.valor}))
+  .filter(i => i.categoria !== "Total");
+const minId = Math.min(...idade.map(i=>i.valor)), maxId = Math.max(...idade.map(i=>i.valor));
+document.getElementById("idade-bars").innerHTML = idade.map(d => {
+  const fora = d.valor < 90;
+  return "<div class='bar-row "+(fora?"destaque":"")+"'>"+
+    "<span class='lab'>"+d.categoria+"</span>"+
+    "<span class='trilha'><i style='width:"+Math.max(0,d.valor).toFixed(1)+"%'></i></span>"+
+    "<span class='val'>"+p1(d.valor)+"%</span></div>";
+}).join("");
+
+/* ------------------------------------------------------------------ UF */
+const uf = D.ufs.slice().sort((a,b)=>b.valor-a.valor);
+const tot = uf.reduce((s,u)=>s+u.valor,0);
+const top5 = uf.slice(0,5), bot5 = uf.slice(-5).reverse();
+const linhaRank = (u,i) => "<li><span>"+u.nome+"</span><b>"+fmtMil(u.valor)+" mil</b></li>";
+document.getElementById("uf-top").innerHTML = top5.map(linhaRank).join("");
+document.getElementById("uf-bottom").innerHTML = bot5.map(linhaRank).join("");
+document.getElementById("uf-nota").innerHTML =
+  "Somando as 27 unidades chega-se a "+fmtMil(tot)+" mil pessoas, contra "+
+  fmtMil(abs["Utilizaram internet"])+" mil no total do Brasil: a diferença de "+
+  fmtMil(Math.abs(tot-abs["Utilizaram internet"]))+" mil é arredondamento da própria divulgação. "+
+  "São Paulo sozinho concentra "+(100*top5[0].valor/tot).toFixed(1).replace(".",",")+"% do total. "+
+  "Isso é peso populacional, não taxa de acesso.";
+
+/* ------------------------------------------------------------ meta API */
+const meta = D.meta || {};
+const corpo = meta.corpo && meta.corpo.error ? meta.corpo.error : null;
+document.getElementById("meta-status").textContent = "HTTP " + meta.status;
+document.getElementById("meta-msg").textContent = corpo ? corpo.message : String(meta.corpo).slice(0,120);
+document.getElementById("meta-code").textContent = corpo ? corpo.code : "—";
+document.getElementById("meta-nota").innerHTML =
+  "A chamada foi feita em " + D.gerado_em + " a partir da máquina que gerou este documento. " +
+  "O erro é esperado: sem token ativo, a Meta recusa a consulta. Registro o erro real em vez de " +
+  "inventar um número de mensagens.";
+
+/* --------------------------------------------------------------- ficha */
+document.getElementById("ficha-data").textContent = D.gerado_em;
+document.getElementById("ficha-scripts").textContent = "coleta_ibge.py + monta_whatsapp.py";
+document.getElementById("ficha-reg").textContent =
+  Object.keys(D.series.internet.serie).length + " anos de série · " +
+  D.regioes.length + " regiões · " + D.ufs.length + " UFs · " +
+  inst.length + " níveis de instrução · " + idade.length + " faixas de idade";
+</script>
+</body>
+</html>
